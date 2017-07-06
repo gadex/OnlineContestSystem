@@ -1,0 +1,75 @@
+﻿@using OnlineContestSystem.Models
+@*@model OnlineContestSystem.Models.LoginViewModel*@ 
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        @*<li><p class="navbar-text">Already have an account?</p></li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+            <ul id="login-dp" class="dropdown-menu">
+                <li>
+                    <div class="row" style="margin: 1px;">
+                        <div class="col-md-12">
+                            Login via
+                            <div class="social-buttons">
+                                <a href="#" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
+                                
+                            </div>
+                            or
+                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", id="exampleInputEmail2", placeholder="yourname@email.com", required="true" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="exampleInputPassword2">Password</label>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password", id="exampleInputPassword2", required="true"})
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                        @Html.LabelFor(m => m.RememberMe)
+                                    </div>
+                                    <div class="help-block text-right">@Html.ActionLink("Forgot your password?", "ForgotPassword", "Account")
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> keep me logged-in
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                        <div class="bottom text-center">
+                            New here? <a href="#"><b>Join Now</b></a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </li>*@
+    </ul>
+}
