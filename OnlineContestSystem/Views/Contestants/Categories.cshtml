@@ -1,74 +1,57 @@
-﻿@model OnlineContestSystem.Models.Contestant
+﻿@model OnlineContestSystem.Models.VoteCategoryViewModel
 
 @{
     ViewBag.Title = "Categories";
 }
 
-<h2>Categories</h2>
+<h2>@Model.Categorey.Title</h2>
 
 <div>
-    <h4>Contestant</h4>
+    <h4>Contestants</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+    
+            @foreach (var item in Model.Contestants)
+            {
+                <dl class="dl-horizontal">
+                    <dt>
+                        Name
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                    <dd>
+                        @item.Name
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+                    <dt>
+                        State
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+                    <dd>
+                        @item.States
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
+                    <dt>
+                        Country
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
+                    <dd>
+                        @item.Nation
+                    </dd>
+                    @*Just continue with the details you need for each contestant*@
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </dt>
+                    <dd>
+                        @Html.ActionLink("Vote Now", "Vote", new { contestantId = item.ID, categoreyId = Model.Categorey.Id })
+                    </dd>
+                    </dl>
+                    <br />
+                    }
 
-        <dd>
-            @Html.DisplayFor(model => model.DateOfBirth)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Nation)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Nation)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.States)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.States)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Categories)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Categories)
-        </dd>
-
-    </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @* What is this for??  *@
+
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")*@
 </p>

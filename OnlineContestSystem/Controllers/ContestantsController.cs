@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using OnlineContestSystem.Models;
+using System.Threading.Tasks;
 
 namespace OnlineContestSystem.Controllers
 {
@@ -19,7 +20,8 @@ namespace OnlineContestSystem.Controllers
         // GET: Contestants
         public ActionResult Index()
         {
-            return View(db.Contestants.OrderByDescending(x => x.ID).Take(10).ToList());
+
+            return View(new VoteIndexViewModel { Contestants = db.Contestants.OrderByDescending(x => x.ID).Take(10).ToList(), Categories = db.Categories.ToList() });
         }
 
         // GET: Contestants/Details/5
@@ -39,34 +41,32 @@ namespace OnlineContestSystem.Controllers
         }
 
         [Authorize]
-        public ActionResult Categories(int? id, string catFinal)
+        public async Task<ActionResult> Categories(int? id,string msg = "")
         {
-            var categoryList = new List<Category>();
-            var categoryQry = from d in db.Contestants
-                orderby d.Categories
-                select d.Categories;
-
-            var categList = from c in db.Contestants
-                select c;
-
-            categoryList.AddRange(categoryQry.Distinct());
-            ViewBag.catFinal = new SelectList(categoryList);
-
-            if (!string.IsNullOrEmpty(catFinal))
-            {
-                categList = categList.Where(x => x.Categories.ToString() == catFinal);
-            }
-
-            catFinal = categList.ToString();
-
-            return View(catFinal);
+            var categorey = await db.Categories.FindAsync(id);
+            if (categorey == null) return RedirectToAction("Index");
+            return View(new VoteCategoryViewModel { Categorey = categorey, Contestants = db.Contestants.Where(a=>a.Category.Id == categorey.Id).ToList() });
         }
 
         // GET: Contestants/Create
         [Authorize]
         public ActionResult Create()
         {
+            ViewBag.Categories = new SelectList(db.Categories.ToList(), "Id", "Title");
             return View();
+        }
+
+        public ActionResult Vote(int contestantId, int categoreyId)
+        {
+            var uid = User.Identity.GetUserId();
+            if (string.IsNullOrEmpty(uid)) return RedirectToAction("Login","Account");
+            if (db.Voters.Any(a => a.UserId == uid && a.CategoreyId == categoreyId)) return RedirectToAction("Categories", new { id = categoreyId, msg = "This user has already voted for this categorey" });
+            var cont = db.Contestants.Find(contestantId);
+            cont.VoteCount++;
+            db.Voters.Add(new Voter { CategoreyId = categoreyId, UserId = uid });
+            db.Entry(cont).State = EntityState.Modified;
+            db.SaveChangesAsync();
+            return RedirectToAction("Categories", new { id = categoreyId, msg = "Your vote has been counted" });
         }
 
         // POST: Contestants/Create
@@ -74,10 +74,18 @@ namespace OnlineContestSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Email,PhoneNumber,DateOfBirth,Nation,States,Categories")] Contestant contestant, HttpPostedFileBase file)
+        public ActionResult Create(Contestant contestant, HttpPostedFileBase file)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid || Request.Form.AllKeys.Contains("catID"))
             {
+                var id = 0;
+                if(!int.TryParse(Request.Form["catID"], out id))
+                {
+                    ViewBag.Categories = new SelectList(db.Categories.ToList(), "Id", "Title");
+                    return View(contestant);
+                }
+                contestant.Category = db.Categories.Find(id);
+
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
                     string savePath = "~/Images/" + @User.Identity.GetUserId() + "/" + @contestant.Name + "/";
@@ -100,7 +108,7 @@ namespace OnlineContestSystem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.Categories = new SelectList(db.Categories.ToList(), "Id", "Title");
             return View(contestant);
         }
 

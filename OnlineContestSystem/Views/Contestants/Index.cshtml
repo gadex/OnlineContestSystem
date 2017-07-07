@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OnlineContestSystem.Models.Contestant>
+﻿@model VoteIndexViewModel
 @using OnlineContestSystem.Models
 
 @{
@@ -52,7 +52,7 @@
 	<div class="large-12 columns">
 		<div class="owl-carousel owl-theme">
 
-			@foreach (var item in Model)
+			@foreach (var item in Model.Contestants)
 			{
 				<div class="item">
 					<div class="thumbnail">
@@ -62,7 +62,7 @@
 								@item.Name
 							</h4>
 							<p class="lead" style="text-align: center;">
-								@item.Categories</p>
+								@item.Category.Title</p>
 							<div class="row text-center">
 								<div class="col-xs-12 col-md-6">
 									<p style="font-size: 22px">@item.States</p>
@@ -97,20 +97,21 @@
 	<h2 style="color: purple">Categories</h2>
 	<div id="categories-list" class="row list-group">
 
-		@foreach (Category cat in Enum.GetValues(typeof(Category)))
-		{
+		@foreach (Category cat in Model.Categories)
+        {
+            
 			<div class="item col-md-3 col-sm-6 col-xs-12">
 				<div class="thumbnail">
 					<img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt=""/>
 					<div class="caption">
 						<h4 class="group inner list-group-item-heading">
-							@cat.ToString()</h4>
+							@cat.Title</h4>
 						<p class="group inner list-group-item-text">
-							@cat.ToString() is... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+							@cat.Title is... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
 							sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-								@Html.ActionLink("View Category", "Categories", "Contestants", new {catFinal = @cat.ToString()}, new { @class = "btn btn-primary", style="margin-top: 10px;"})
+								@Html.ActionLink("View Category", "Categories", "Contestants", new {id = cat.Id}, new { @class = "btn btn-primary", style="margin-top: 10px;"})
 							</div>
 						</div>
 					</div>

@@ -24,15 +24,36 @@ namespace OnlineContestSystem.Models
         public Nationality Nation { get; set; }
         [Display(Name = "State of Origin")]
         public State States { get; set; }
-        [Display(Name = "Category")]
-        public Category Categories { get; set; }
         public virtual ICollection<Media> Images { get; set; }
+        public virtual Category Category { get; set; }
+        //The total number of votes
+        public int VoteCount { get; set; }
 
+    }
+
+    /// <summary>
+    /// Let this, help check for double voting in a categorey
+    /// </summary>
+    public class Voter
+    {
+        public int Id { get; set; }
+        public int CategoreyId { get; set; }
+        public string UserId { get; set; }
+    }
+
+
+    public class Category
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public DateTime Date { get; set; }
     }
 
     public class ContestantDbContext : DbContext
     {
         public DbSet<Contestant> Contestants { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Voter> Voters { get; set; }
     }
 
     public class Media
@@ -41,22 +62,7 @@ namespace OnlineContestSystem.Models
         public string Path { get; set; }
     }
         
-    public enum Category
-    {
-        [Display(Name = "Music And Songs")]
-        MusicAndSongs,
-        Sports,
-        [Display(Name = "Digital And Visual Arts")]
-        DigitalAndVisualArts,
-        [Display(Name = "Science And Technology")]
-        ScienceAndTechnology,
-        [Display(Name = "Performing Arts")]
-        PerformingArts,
-        [Display(Name = "Fashion Design And Modeling")]
-        FashionDesignAndModeling,
-        Others
-    }
-
+   
     public enum Nationality
     {
         Nigerian,Other
