@@ -62,10 +62,10 @@ namespace OnlineContestSystem.Controllers
             if (string.IsNullOrEmpty(uid)) return RedirectToAction("Login","Account");
             if (db.Voters.Any(a => a.UserId == uid && a.CategoreyId == categoreyId)) return RedirectToAction("Categories", new { id = categoreyId, msg = "This user has already voted for this categorey" });
             var cont = db.Contestants.Find(contestantId);
-            cont.VoteCount++;
+            cont.VoteCount += 1;
             db.Voters.Add(new Voter { CategoreyId = categoreyId, UserId = uid });
             db.Entry(cont).State = EntityState.Modified;
-            db.SaveChangesAsync();
+            db.SaveChanges();
             return RedirectToAction("Categories", new { id = categoreyId, msg = "Your vote has been counted" });
         }
 
