@@ -9,7 +9,8 @@ namespace OnlineContestSystem
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery.unobtrusive-ajax.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -24,9 +25,24 @@ namespace OnlineContestSystem
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/css/Site.css",
-                      "~/Content/css/pages-style.css",
-                      "~/Content/css/custom.css"));
+                      "~/Content/bootstrap.min.css",
+                      "~/Content/pages-style.css",
+                      "~/Content/custom.css",
+                      "~/Content/Site.css",
+                "~/Content/ekko-lightbox.min.css",
+                "~/Content/sweetalert/sweet-alert.css"));
+            //js
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                "~/Scripts/jquery-ui-{version}.js"));
+            //css  
+            bundles.Add(new StyleBundle("~/Content/cssjqryUi").Include(
+                "~/Content/jquery-ui.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/ekko").Include(
+                "~/Scripts/ekko-lightbox.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/ekko").Include(
+                "~/Content/ekko-lightbox.min.js"));
         }
     }
 }

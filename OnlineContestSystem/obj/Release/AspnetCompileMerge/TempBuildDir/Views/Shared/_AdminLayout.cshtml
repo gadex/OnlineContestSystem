@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/ekko")
+    <style>
+        body {
+            padding-top: 150px;
+        }
+
+        .nav-adjusted {
+            padding-top: 15px;
+            line-height: 60px;
+            font-size: 18px;
+            font-family: 'PT Sans', sans-serif;
+        }
+    </style>
+    <title>@ViewBag.Title - Talent Unleash</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <!-- FAVICON AND APPLE TOUCH -->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/apple-touch-180x180.png">
+    <meta name="msapplication-TileImage" content="mstile.png">
+    <meta name="msapplication-TileColor" content="#742cde">
+    <meta name="theme-color" content="#742cde">
+
+    <!-- FONTS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i%7C;PT+Sans:400,400i,700,700i">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+	
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="~/Content/assets/fonts/fontawesome/css/font-awesome.min.css">
+
+    <!-- FOXY ICONS -->
+    <link rel="stylesheet" href="~/Content/assets/fonts/foxy-icons/css/foxy-icons.min.css">
+
+    <!-- FANCYBOX -->
+    <link rel="stylesheet" href="~/Content/assets/plugins/fancybox/jquery.fancybox.min.css">
+
+    <!-- REVOLUTION SLIDER -->
+    <link rel="stylesheet" href="~/Content/assets/plugins/revolutionslider/css/settings.css">
+    <link rel="stylesheet" href="~/Content/assets/plugins/revolutionslider/css/layers.css">
+    <link rel="stylesheet" href="~/Content/assets/plugins/revolutionslider/css/navigation.css">
+
+    <!-- OWL CAROUSEL -->
+    <link rel="stylesheet" href="~/Content/assets/plugins/owl-carousel/owl.carousel.css">
+
+    <!-- ANIMATIONS -->
+    <link rel="stylesheet" href="~/Content/assets/plugins/animations/animate.min.css">
+
+    <link href='http://fonts.googleapis.com/css?family=Buenard:700' rel='stylesheet' type='text/css'>
+	
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#datepicker" ).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(1960, 01, 01),
+                maxDate: new Date(2017, 01, 01)
+            });
+        } );
+    </script>
+</head>
+
+<body class="sticky-header header-transparent footer-dark">
+
+@*<div id="fb-root"></div>
+<script>(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=485924281756093";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>*@
+
+<div id="main-container" class="body-content">
+
+    <!-- HEADER -->
+    <header id="header">
+
+        <div class="navbar navbar-inverse navbar-fixed-top nav-adjusted">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="@Url.Action("Index", "Contestants")" class="navbar-left"><img src="~/Content/Logo_black.png" style="padding-bottom: 15px;"></a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Contestants")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        <li><a href="@Url.Action("HowItWorks", "Home")">How To Win</a></li>
+                        <li><a href="@Url.Action("Partner", "Home")">Partner</a></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li><a href="@Url.Action("Index", "Role")">Admin</a></li>
+                        }
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+
+    </header><!-- HEADER -->
+
+    <ol class="breadcrumb">
+        <li class="active">
+            @Html.ActionLink("Home ", "Index", "Role")
+            @if (ViewContext.RouteData.Values["controller"] != "Role" && ViewContext.RouteData.Values["action"] != "Index")
+            {
+                @:/ @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index", ViewContext.RouteData.Values["controller"].ToString())
+            }
+
+            / @ViewBag.Title
+        </li>
+    </ol>
+
+    @RenderBody()
+
+    <!-- FOOTER -->
+    <footer id="footer" style="color: white;">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-3">
+
+                    <div class="widget widget-text">
+
+                        <div>
+
+                            <img src="~/Content/Logo_black.png" alt="">
+
+                        </div>
+
+                    </div><!-- widget-text -->
+				
+                    <div class="text-left center-block">
+                        <a href="https://www.facebook.com/talentunleash/"><i id="social-fb" class="fa fa-facebook-square fa-3x social"></i></a>
+                        <a href="https://twitter.com/"><i id="social-tw" class="fa fa-twitter-square fa-3x social"></i></a>
+                        <a href="https://plus.google.com/"><i id="social-gp" class="fa fa-google-plus-square fa-3x social"></i></a>
+                        <a href="mailto:info@talentunleash.com"><i id="social-em" class="fa fa-envelope-square fa-3x social"></i></a>
+                    </div>
+
+                </div><!-- col -->
+			
+                <div class="col-xs-12 col-sm-6 col-md-3">
+
+                    <div class="widget widget-contact">
+
+                        <a href="@Url.Action("Contact", "Home")"><h6 class="widget-title" style="color: white;">Contact Us</h6></a>
+                        <ul>
+                            <li>
+                            Abuja, Nigeria <br class="hidden-sm">
+                            <li>
+                                080-1234-5678
+                            </li>
+                            <li>
+                                <a href="mailto:info@talentunleash.com">info@talentunleash.com</a>
+                            </li>
+                        </ul>
+
+                    </div><!-- widget-contact -->
+
+                </div><!-- col -->
+
+                <div class="col-xs-12 col-sm-6 col-md-3">
+
+                    <div class="widget widget-pages">
+
+                        <h6 class="widget-title" style="color: white;">Links</h6>
+
+                        <ul>
+                            <li><a href="@Url.Action("Index", "Contestants")">Home</a></li>
+                            <li><a href="@Url.Action("About", "Home")" title="About Talent Unleash">About</a></li>
+                            <li><a href="@Url.Action("HowItWorks", "Home")">How it Works</a></li>
+                            <li><a href="@Url.Action("Partner", "Home")">Partner</a></li>
+                            <li><a href="@Url.Action("AllCategories", "Contestants")">All Contestants</a></li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li><a href="@Url.Action("Index", "Role")">Admin</a></li>
+                            }
+                        </ul>
+
+                    </div><!-- widget-pages -->
+
+                </div><!-- col -->
+
+                <div class="col-xs-12 col-sm-6 col-md-3">
+
+                    <div id="map" style="height: 220px; margin-bottom: 10px;" class="map" data-zoom="15" data-height="520" data-address="Abuja, Nigeria"></div>
+
+                </div>
+
+            </div><!-- row -->
+        </div><!-- container -->
+
+    </footer><!-- FOOTER -->
+
+    <div id="footer-bottom" style="color: white;">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <div class="widget widget-text">
+
+                        <div>
+
+                            <p class="text-center"><small><a href="http://www.talentunleash.com">@@Talent Unleash</a> @DateTime.Now.Year.ToString() | All rights reserved</small>
+                            </p>
+
+                        </div>
+
+                    </div><!-- widget-text -->
+
+                </div><!-- col -->
+				
+            </div><!-- row -->
+        </div><!-- container -->
+
+    </div><!-- FOOTER-BOTTOM -->
+</div>
+
+<a id="scroll-up" class="waves"><i class="fa fa-angle-up"></i></a>
+
+
+<!-- jQUERY -->
+<script src="~/Content/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+
+<!-- VIEWPORT -->
+<script src="~/Content/assets/plugins/viewport/jquery.viewport.js"></script>
+
+<!-- MENU -->
+<script src="~/Content/assets/plugins/menu/hoverIntent.js"></script>
+<script src="~/Content/assets/plugins/menu/superfish.js"></script>
+
+<!-- FANCYBOX -->
+<script src="~/Content/assets/plugins/fancybox/jquery.fancybox.min.js"></script>
+
+<!-- OWL CAROUSEL -->
+<script src="~/Content/assets/plugins/owl-carousel/owl.carousel.min.js"></script>
+
+<!-- PARALLAX -->
+<script src="~/Content/assets/plugins/parallax/jquery.stellar.min.js"></script>
+
+<!-- ISOTOPE -->
+<script src="~/Content/assets/plugins/isotope/imagesloaded.pkgd.min.js"></script>
+<script src="~/Content/assets/plugins/isotope/isotope.pkgd.min.js"></script>
+
+<!-- CONTACT FORM VALIDATE & SUBMIT -->
+<script src="~/Content/assets/plugins/validate/jquery.validate.min.js"></script>
+<script src="~/Content/assets/plugins/submit/jquery.form.min.js"></script>
+
+<!-- CHARTS -->
+<script src="~/Content/assets/plugins/charts/jquery.easypiechart.min.js"></script>
+
+<!-- COUNTER -->
+<script src="~/Content/assets/plugins/counter/jquerysimplecounter.js"></script>
+
+<!-- ANIMATIONS -->
+<script src="~/Content/assets/plugins/animations/wow.min.js"></script>
+
+<!-- CUSTOM JS -->
+<script src="~/Content/assets/js/custom.js"></script>
+
+<script>
+    function initMap() {
+        var uluru = { lat: 9.076683, lng: 7.404642 };
+        var map = new google.maps.Map(document.getElementById('map'),
+            {
+                zoom: 8,
+                center: uluru
+            });
+        var marker = new google.maps.Marker({
+            position: uluru,
+            map: map
+        });
+    }
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTDcff3y4Gjn3JuQThCA41LXhorselLeU&callback=initMap" type="text/javascript"></script>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/ekko")
+@RenderSection("scripts", required: false)
+</body>
+</html>

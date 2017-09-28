@@ -9,8 +9,8 @@ namespace OnlineContestSystem.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
-            ContextKey = "OnlineContestSystem.Models.ContestantDbContext";
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(OnlineContestSystem.Models.ContestantDbContext context)

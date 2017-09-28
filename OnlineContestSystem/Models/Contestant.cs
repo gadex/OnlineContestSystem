@@ -1,43 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
-using System.Linq;
-using System.Reflection;
-using System.Web;
 
 namespace OnlineContestSystem.Models
 {
     public class Contestant
     {
         public int ID { get; set; }
+
         [Display(Name = "Full Name")]
         public string Name { get; set; }
+
+        [Display(Name = "Profile Picture")]
+        public virtual ICollection<Media> ProfilePic { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
-        [DataType(DataType.Date)]
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MMM/yyyy}")]
         [Display(Name = "Date of Birth")]
-        public DateTime DateOfBirth { get; set; }
-        [Display(Name = "Nationality")]
-        public Nationality Nation { get; set; }
-        [Display(Name = "State of Origin")]
-        public State States { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+
+        [Display(Name = "Gender")]
+        public Gender Genders { get; set; }
+
+        [Display(Name = "Describe your talent")]
+        public string Bio { get; set; }
+
+        [Display(Name = "Upload Images")]
         public virtual ICollection<Media> Images { get; set; }
+
         public virtual Category Category { get; set; }
+
         //The total number of votes
         public int VoteCount { get; set; }
-
     }
 
     /// <summary>
-    /// Let this, help check for double voting in a categorey
+    ///     Let this, help check for double voting in a category
     /// </summary>
     public class Voter
     {
         public int Id { get; set; }
-        public int CategoreyId { get; set; }
+        public int CategoryId { get; set; }
         public string UserId { get; set; }
     }
 
@@ -45,8 +55,81 @@ namespace OnlineContestSystem.Models
     public class Category
     {
         public int Id { get; set; }
+
+        [Display(Name = "Category")]
         public string Title { get; set; }
-        public DateTime Date { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        public string Description { get; set; }
+
+        public virtual ICollection<Media> CatImage { get; set; }
+    }
+
+    public class Blog
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public virtual ICollection<Media> BlogImage { get; set; }
+        public string Description { get; set; }
+        public DateTime PostDate { get; set; }
+    }
+
+    public class KnownTalents
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public virtual ICollection<Media> TalentImage { get; set; }
+    }
+
+    //public class Ask
+    //{
+    //    [Key]
+    //    public int Id { get; set; }
+    //    public string UserName { get; set; }
+    //    [Required]
+    //    public string ChallengeTitle { get; set; }
+    //    [Required]
+    //    public string ChallengeQuestion { get; set; }
+    //    public DateTime AskDate { get; set; }
+    //}
+
+    //public class Reply
+    //{
+    //    [Key]
+    //    public int Id { get; set; }
+    //    public int MessageId { get; set; }
+    //    [Required]
+    //    public string ReplyFrom { get; set; }
+    //    [Required]
+    //    public string ReplyMessage { get; set; }
+    //    public DateTime ReplyDateTime { get; set; }
+    //}
+
+    public class ContactUs
+    {
+        [Required]
+        [StringLength(100)]
+        [Display(Order = 1)]
+        public virtual string Name { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [StringLength(254)]
+        [RegularExpression(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")]
+        [Display(Order = 2)]
+        public virtual string Email { get; set; }
+
+        [Required]
+        [StringLength(254)]
+        [Display(Order = 3)]
+        public virtual string Subject { get; set; }
+
+        [Required]
+        [StringLength(2000)]
+        [DataType(DataType.MultilineText)]
+        [Display(Order = 4)]
+        public virtual string Message { get; set; }
     }
 
     public class ContestantDbContext : DbContext
@@ -54,6 +137,12 @@ namespace OnlineContestSystem.Models
         public DbSet<Contestant> Contestants { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Voter> Voters { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<KnownTalents> KnownTalents { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Reply> Replies { get; set; }
+
+        //public DbSet<AnswerQuestion> AnswerQuestions { get; set; }
     }
 
     public class Media
@@ -61,68 +150,10 @@ namespace OnlineContestSystem.Models
         public int Id { get; set; }
         public string Path { get; set; }
     }
-        
-   
-    public enum Nationality
+
+    public enum Gender
     {
-        Nigerian,Other
+        Male,
+        Female
     }
-
-    public enum State
-    {
-        Abia,
-        Adamawa,
-        [Display(Name = "Akwa Ibom")]
-        AkwaIbom,
-        Anambra,
-        Bauchi,
-        Bayelsa,
-        Benue,
-        Borno,
-        [Display(Name = "Cross River")]
-        CrossRiver,
-        Delta,
-        Ebonyi,
-        Edo,
-        Ekiti,
-        Enugu,
-        [Display(Name = "Federal Capital Territory")]
-        Fct,
-        Gombe,
-        Imo,
-        Jigawa,
-        Kaduna,
-        Kano,
-        Katsina,
-        Kebbi,
-        Kogi,
-        Kwara,
-        Lagos,
-        Nasarawa,
-        Niger,
-        Ogun,
-        Ondo,
-        Osun,
-        Oyo,
-        Plateau,
-        Rivers,
-        Sokoto,
-        Taraba,
-        Yobe,
-        Zamfara
-    }
-
-//     public static class EnumExtensions
-//{
-//    public static string GetDisplayName(this Enum enumValue)
-//    {
-//        return enumValue.GetType()
-//                        .GetMember(enumValue.ToString())
-//                        .First()
-//                        .GetCustomAttribute<DisplayAttribute>()
-//                        .GetName();
-//    }
-//}
-
-
 }

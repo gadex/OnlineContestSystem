@@ -1,0 +1,337 @@
+﻿@model VoteIndexViewModel
+@using OnlineContestSystem.Models
+
+@{
+	ViewBag.Title = "Home";
+	List<string> files = ViewBag.ProofPaths;
+}
+
+<style>
+	.bg-overlay {
+		background: linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)), url("../Content/header-bg-2.jpg");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		background-attachment: fixed;
+		color: #fff;
+		height: 450px;
+		padding-top: 50px;
+		width: 100%;
+		margin-top: 30px;
+	}
+
+	.bg-no-overlay {
+		background: url("../Content/Unleash2.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		color: #fff;
+		height: auto;
+		padding-top: 80px;
+		width: 100%;
+		margin-top: 30px;
+	}
+
+	.blog-scroll {
+		width: 30em;
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+
+	.strokeme {
+		/*color: blueviolet;
+		text-shadow: -1px -1px 0 blueviolet, 1px -1px 0 blueviolet, -1px 1px 0 blueviolet, 1px 1px 0 blueviolet;*/
+		color: black !important;
+		font-family: 'Alfa Slab One', cursive !important;
+	}
+
+	body {
+		padding-top: 0 !important;
+	}
+</style>
+
+
+<link href="https://fonts.googleapis.com/css?family=Arima+Madurai|Alfa+Slab+One|Mogra|PT+Sans" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css" />
+
+<div class="bg-no-overlay">
+	<div class="row text-center">
+		<div class="strokeme">
+			
+			<h3>Welcome to Talent Unleash</h3>
+			
+			<small class="label-success" style="color: white; background-color: #ff00fc">2017 Contest Opening on 1st August, 2017.</small>
+			<br />
+			<h1 style="color: yellow; font-weight: bold;">Showcase Your Talent and Win Great Prizes</h1>
+			
+		</div>
+		<a href="@Url.Action("Create", "Contestants")" class="btn btn-default btn-lg" style="margin: 30px; color: white; background-color: #a00ad7;">JOIN NOW!</a>
+	</div>
+</div>
+
+<div class="container" style="width: 70%;">
+	<div class="row">
+		<div class="col-sm-12 text-center">
+			<br><br>
+			<h1 style="font-size: 50px;">The Talent Unleash Project.</h1>
+
+			<br>
+
+			<p style="font-size: 18px;">
+				Talents Unleash show is a talent and skill exhibition aimed at discovering, showcasing and harnessing
+				great talents and skills across different fields of endeavours including entertainment, sports, science etc.
+				The focus is on young people who may not have had any opportunity to bring their talent to the public domain
+				and may not know how to apply their talents and skills to productive ventures.
+			</p>
+
+			<p style="font-size: 18px;">
+				Talent unleash  is set to harness, showcase, promote and apply these talents for the benefit of Nigeria and the world at large.
+				Talent unleash is not just a show, it is a project to unleash the greatness in Nigerians and in Nigeria.
+			</p>
+
+			<p style="font-size: 18px;">
+				In this project every great talent has a reward.
+				It is not just about winning prices, it about fetching raw talents and building them into international brands.
+			</p>
+
+					
+			<a class="btn btn-lg"  style="background-color: #b40bf1; color: white;" href="/Home/About">Learn More</a>
+			<br><br>
+
+		</div><!-- col -->
+	</div><!-- row -->
+</div><!-- container -->
+
+
+<section class="full-section dark-section parallax" id="section-15" data-stellar-background-ratio="0.3"
+		 style="background-position: 50% 84.3px; font-family: 'PT Sans', sans-serif;">
+	<div class="full-section-container">
+
+		
+		<div class="container" style="margin-top: 50px; font-family: 'PT Sans', sans-serif;">
+			
+			<h1 style="font-size: 52px;">How To Unleash The Greatest In You.</h1>
+	
+	
+			<div class="row">
+				<div class="col-sm-4">
+			
+
+					<div class="blog-article">
+
+						<div class="blog-article-thumbnail">
+					
+
+							<a href="#"><img src="~/Content/images/blog/image-1.jpg" alt=""></a>
+
+						</div><!-- blog-article-thumbnail -->
+
+						<h4 class="blog-article-title"><a href="#">Let it shine</a></h4>
+
+					    @*<a class="date" href="#">May 25, 2017</a>
+
+						<div class="blog-article-content">
+
+							<p>
+								"The empires of the future are empires of the mind." - Winston Churchill <br />
+								"If you can picture it in your mind and can dwell on it long enough, then you can achieve it"
+							</p>
+
+						</div>*@<!-- blog-article-content -->
+
+					</div><!-- blog-article -->
+
+				</div><!-- col -->
+				<div class="col-sm-4">
+
+					<div class="blog-article">
+
+						<div class="blog-article-thumbnail">
+
+							<a href="#"><img src="~/Content/images/blog/image-2.jpg" alt=""></a>
+
+						</div><!-- blog-article-thumbnail -->
+
+						<h4 class="blog-article-title"><a href="#">Set a Vision</a></h4>
+
+					    @*<a class="date" href="#">May 22, 2017</a>
+
+						<div class="blog-article-content">
+
+							<p>
+								"The empires of the future are empires of the mind." - Winston Churchill <br />
+								"If you can picture it in your mind and can dwell on it long enough, then you can achieve it"
+							</p>
+
+						</div>*@<!-- blog-article-content -->
+
+					</div><!-- blog-article -->
+
+				</div><!-- col -->
+				<div class="col-sm-4">
+
+					<div class="blog-article">
+
+						<div class="blog-article-thumbnail">
+
+							<a href="#"><img src="~/Content/images/blog/image-3.jpg" alt=""></a>
+
+						</div><!-- blog-article-thumbnail -->
+
+						<h4 class="blog-article-title"><a href="blog-post-right-sidebar.html">Don’t Limit Yourself</a></h4>
+
+					    @*<a class="date" href="#">May 20, 2017</a>
+
+						<div class="blog-article-content">
+
+							<p>
+								"The greatest danger for most of us is not that our aim is too high and we miss it,
+								but that it is too low and we reach it." - <strong>Michelangelo</strong>
+							</p>
+
+						</div>*@<!-- blog-article-content -->
+
+					</div><!-- blog-article -->
+
+				</div><!-- col -->
+			</div><!-- row -->
+		</div><!-- container -->
+		
+		
+		
+		
+		
+		
+
+	</div><!-- full-section-container -->
+</section>
+
+@* Display Categories *@
+<br><br>
+<h2 style="font-size: 50px;">Talent Categories</h2>
+<div class="container">
+	<div class="row">
+	
+		
+		@foreach (Category cat in Model.Categories)
+		{
+			<div class="col-md-2">
+				<div class="image-box wow fadeInUp" data-wow-delay="0.2s">
+
+					<div class="image-box-thumbnail">
+						<a href="@Url.Action("Categories", "Contestants", new { id = cat.Id})"><img src="@cat.CatImage.FirstOrDefault().Path" alt=""></a>
+					</div><!-- image-box-thumbnail -->
+
+					<h4><a href="@Url.Action("Categories", "Contestants", new { id = cat.Id})">@cat.Title</a></h4>
+
+					<p>@cat.Description</p>
+				</div><!-- image-box -->
+
+			</div><!-- col -->
+		}
+			
+
+		
+	</div><!-- row -->
+</div><!-- container -->
+
+
+@* Display Contestants *@
+
+<div style="background-color: black; padding: 40px;">
+	<br><br>
+	<h2 style="font-size: 50px;">Recent Entrants </h2>
+
+	<div class="row">
+		<div class="large-12 columns">
+			<div class="owl-carousel owl-theme">
+
+				@foreach (var item in Model.Contestants)
+				{
+					<div class="item">
+						<div class="thumbnail">
+							<img class="group list-group-image" src="@item.Images.FirstOrDefault().Path" alt="" />
+							<div class="caption">
+								<h4 class="group inner list-group-item-heading">
+									@item.Name
+								</h4>
+								<p class="lead" style="text-align: center;">
+								</p>
+								<div class="row text-center">
+									<div class="col-xs-12 col-md-6">
+										<p style="font-size: 22px">@item.Category.Title.ToString()</p>
+									</div>
+									<div class="col-xs-12 col-md-6">
+										@Html.ActionLink("View Candidate", "Details", new { id = item.ID }, new { @class = "btn btn-default btn-plan-select" })
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				}
+			</div>
+		</div>
+	</div>
+</div>
+
+<br><br>
+<h1 style="font-size: 50px;">Celebrating Known Talents</h1>
+
+<div class="container" id="section-15" style="margin: 20px; margin-top: 0;">
+	<hr>
+	<div class="row row-margin-bottom">
+		<div class="col-md-1"></div>
+		<div class="col-md-10 no-padding lib-item" data-category="ui">
+			<div class="lib-panel">
+				<div class="row box-shadow">
+					<div class="col-md-3">
+						<img class="lib-img img-circle" src="~/Content/kanu.jpeg">
+					</div>
+					<div class="col-md-9">
+						<div class="lib-row lib-header" style="font-size: 20px">
+							Nwankwo Kanu
+							<div class="lib-header-seperator"></div>
+						</div>
+						<div class="lib-row lib-desc">
+							<p style="font-size: 20px">
+								He is a retired Nigerian footballer.
+								He was a member of the Nigerian national team and later captained the Eagles for 16 years from 1994 until 2010.
+							</p>
+							<p style="font-size: 20px">
+								Kanu began his career at Nigerian league club Federation Works, before moving to Iwuanyanwu Nationale.
+								After a notable performance at the U-17 World Championships he was signed by Dutch Eredivisie AFC Ajax in 1993 for €207,047.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.js"></script>
+<script>
+	$('.owl-carousel').owlCarousel({
+		autoplay: true,
+		autoplayTimeout: 1000,
+		autoplayHoverPause: true,
+		loop: true,
+		dots: false,
+		margin: 10,
+		nav: false,
+		responsive: {
+			0: {
+				items: 1
+			},
+			600: {
+				items: 3
+			},
+			1000: {
+				items: 4
+			}
+		}
+	})
+</script>

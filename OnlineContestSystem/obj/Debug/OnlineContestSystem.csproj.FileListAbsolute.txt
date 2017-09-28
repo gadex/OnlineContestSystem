@@ -143,3 +143,14 @@ C:\Users\Jaytee\Source\Repos\OnlineContestSystem\OnlineContestSystem\obj\Debug\O
 C:\Users\Jaytee\Source\Repos\OnlineContestSystem\OnlineContestSystem\obj\Debug\OnlineContestSystem.Migrations.Contestant.resources
 C:\Users\Jaytee\Source\Repos\OnlineContestSystem\OnlineContestSystem\obj\Debug\OnlineContestSystem.Migrations.Contestant1.resources
 C:\Users\Jaytee\Source\Repos\OnlineContestSystem\OnlineContestSystem\obj\Debug\OnlineContestSystem.Migrations.Voter.resources
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\Microsoft.Threading.Tasks.dll
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\SendGrid.dll
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\SendGrid.SmtpApi.dll
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\SendGridMail.dll
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\Microsoft.Threading.Tasks.xml
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\SendGrid.pdb
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\SendGrid.xml

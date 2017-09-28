@@ -1,0 +1,100 @@
+﻿@model OnlineContestSystem.Models.VoteCategoryViewModel
+
+@{
+    ViewBag.Title = "All Categories";
+}
+
+<style type="text/css">
+    a.list-group-item {
+        height: auto;
+        min-height: 220px;
+    }
+
+        a.list-group-item.active small {
+            color: #fff;
+        }
+
+    .stars {
+        margin: 20px auto 1px;
+    }
+
+    .img-listbox {
+        height: 200px;
+    }
+</style>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+<h2>All Contestants</h2>
+
+<div>
+
+    <div class="container">
+            @using (Html.BeginForm("AllCategories", "Contestants", FormMethod.Get, new {@class = "form-horizontal"}))
+            {
+                
+                        <div class="form-group">
+                            <div class="col-sm-4" style="padding: 5px;">
+                                @Html.DropDownList("contCategory", null, "All", new { @class = "form-control" })
+                            </div>
+                            <div class="col-sm-4" style="padding: 5px;">
+                                @Html.TextBox("SearchString", "", new { @class = "form-control", placeholder = "Search" })
+                            </div>
+                            <div class="col-sm-1" style="padding: 5px;">
+                                <input type="submit" value="Filter" class="btn btn-primary" />
+                            </div>
+                        </div>
+                   
+            }
+        <div class="row">
+            @*<table>
+            <tr>
+                <th>
+                    @Html.ActionLink("Name", "AllCategories", new { sortOrder = ViewBag.NameSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Category", "AllCategories", new { sortOrder = ViewBag.CatSortParm })
+                </th>
+                <th></th>
+            </tr>
+                </table>*@
+            <div class="well">
+
+
+                @foreach (var item in Model.Contestants)
+                {
+                    if (Model.Contestants.Count == 0)
+                    {
+                        <h1 class="text-center">There are no contestants for this category yet.</h1>
+                    }
+                    else
+                    {
+                        <h1 class="text-center">Vote for your favourite</h1>
+                    }
+                    <div class="list-group">
+
+                        <a href="@Url.Action("Details", "Contestants", new {id = item.ID})" class="list-group-item">
+                            <div class="media col-md-3">
+                                <figure class="pull-left">
+                                    <img class="media-object img-rounded img-responsive img-listbox" src="@item.Images.FirstOrDefault().Path" alt="Contestant Image">
+                                </figure>
+                            </div>
+                            <div class="col-md-6">
+                                <h3 class="list-group-item-heading text-left"> @item.Name </h3>
+                                <h4 class="list-f text-left"> @item.Category.Title </h4>
+                                <p class="list-group-item-text">
+                                    @item.Bio
+                                </p>
+                            </div>
+                            <div class="col-md-3 text-center">
+
+                            </div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+

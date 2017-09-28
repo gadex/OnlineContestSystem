@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using OnlineContestSystem.Models;
+using OnlineContestSystem.CustomFilters;
 
 namespace OnlineContestSystem.Controllers
 {
+    [AuthLog(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private ContestantDbContext db = new ContestantDbContext();
@@ -46,11 +50,28 @@ namespace OnlineContestSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Date")] Category category)
+        public ActionResult Create([Bind(Include = "Id,Title,CatImage,Description")] Category category, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
-                category.Date = DateTime.Now;
+
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    string savePath = "~/Images/" + category.Title + "/";
+                    DirectoryInfo dir = new DirectoryInfo(HttpContext.Server.MapPath(savePath));
+                    if (!dir.Exists)
+                    {
+                        dir.Create();
+                    }
+                    file = Request.Files[i];
+                    file.SaveAs(HttpContext.Server.MapPath(savePath)
+                                + file.FileName);
+                    if (category.CatImage != null) category.CatImage.Add(new Models.Media { Path = "/Images/" + @category.Title + "/" + file.FileName });
+                    else category.CatImage = new List<Models.Media> { new Models.Media { Path = "/Images/" + @category.Title + "/" + file.FileName } };
+
+
+
+                }
                 db.Categories.Add(category);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -79,7 +100,7 @@ namespace OnlineContestSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Date")] Category category)
+        public ActionResult Edit([Bind(Include = "Id,Title,Description,CatImage")] Category category)
         {
             if (ModelState.IsValid)
             {

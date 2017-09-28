@@ -1,0 +1,96 @@
+﻿@model OnlineContestSystem.Models.Blog
+
+@{
+	ViewBag.Title = "Post";
+}
+
+<style>
+    .generatedblog {
+        width: 500px;
+        height: auto;
+        margin: auto;
+        display: block;
+    }
+</style>
+<br /> <br />
+<div class="container">
+	<div class="row">
+		<div class="col-md-offset-2 col-md-8">
+
+			<div class="blog-article">
+                <h4 class="blog-article-title">
+                    @Model.Title
+                </h4>
+				<div class="blog-article-thumbnail">
+
+					<a href="#"><img rel="image_src" src="@Model.BlogImage.FirstOrDefault().Path" class="generatedblog" alt=""></a>
+
+				</div><!-- blog-article-thumbnail -->
+
+				
+
+				<p class="date" href="#">@Model.PostDate.ToLongDateString()</p>
+
+				@*<div class="blog-article-details">
+					By
+					<a class="author" href="#">Name</a>
+					in
+					<a class="category" href="#">Publicity</a>
+					<a class="comments" href="#">3 comments</a>
+				</div>*@
+
+				<div class="blog-article-content">
+
+					<p>
+						@Model.Description
+					</p>
+
+				</div><!-- blog-article-content -->
+				<p>Share with friends...</p>
+						
+				<ul class="list-inline">
+					<li>
+						<a target="_blank" href="https://facebook.com/sharer.php?u=@Request.Url.AbsoluteUri" class="socialy facebook"></a>
+					</li>
+					<li>
+						<a target="_blank" href="https://twitter.com/intent/tweet?url=@Request.Url.AbsoluteUri&amp;text=@Model.Title&amp;via=talentunleash" class="socialy twitter"></a>
+					</li>
+					<li>
+						<a target="_blank" href="https://plus.google.com/share?url=@Request.Url.AbsoluteUri" class="socialy googleplus"></a>
+					</li>
+				</ul>
+
+			</div><!-- blog-article -->
+		</div><!-- col -->
+	</div><!-- row -->
+</div><!-- container -->
+
+@* Comments *@
+
+@foreach (var detail in Model.Title)
+{
+	<div style="margin: 20px;" id="disqus_thread"></div>
+	<script id="dsq-count-scr" src="//talentunleash.disqus.com/count.js" async></script>
+	<script>
+		/**
+		* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+		* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+		*/
+
+		var disqus_config = function () {
+			this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+			this.page.identifier = @detail.ToString(); // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+		};
+
+		(function() { // DON'T EDIT BELOW THIS LINE
+			var d = document, s = d.createElement('script');
+
+			s.src = '//talentunleash.disqus.com/embed.js';
+
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+}

@@ -24,6 +24,7 @@ namespace OnlineContestSystem
             // Configure the sign in cookie
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
+                ExpireTimeSpan = TimeSpan.FromMinutes(60),
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
                 Provider = new CookieAuthenticationProvider
@@ -54,15 +55,15 @@ namespace OnlineContestSystem
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "485924281756093",
+               appSecret: "a9c8b6c82243040c23ff3bca4e32eeeb");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "6068386123-1n2konvvnt3e6t3brm3u0je7t7urn7jb.apps.googleusercontent.com",
+                ClientSecret = "UFagEdq3bAuyBcs3M-EAln7s"
+            });
         }
     }
 }

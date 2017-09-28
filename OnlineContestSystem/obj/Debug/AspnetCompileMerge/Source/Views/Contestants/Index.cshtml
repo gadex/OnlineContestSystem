@@ -1,0 +1,205 @@
+﻿@model VoteIndexViewModel
+@using OnlineContestSystem.Models
+
+@{
+	ViewBag.Title = "Index";
+	List<string> files = ViewBag.ProofPaths;
+}
+<script>
+	$(document).ready(function () {
+
+		$(".player").mb_YTPlayer();
+
+	});
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css" />
+
+
+@*<h1>Seed Online Contest</h1>
+				<p>
+					Do you think you have what it takes? <br class="hidden-xs">
+					Join below and stand a chance to win.
+				</p>
+				<p>@ViewBag.Title</p>
+				<a href="@Url.Action("Create", "Contestants")" class="btn btn-lg" style="margin: 30px; border: solid;
+									  border-color: white;
+									  color: white;">Join Now!</a>*@
+@*<div class="row">
+	<article>
+		<h1>GROSS DESIGN co. <br /> <span>(Made by <a href="http://mattgross.io" target="_blank">Matt Gross</a>, for <a href="https://evenvision.com">EvenVision</a>)</span></h1>
+	</article>
+	<video autoplay loop muted poster="screenshot.jpg" id="video-background" style="width: 100%; height: 80vh">
+		<source src="~/Content/My Movie.mp4" type="video/mp4">
+	</video>
+</div>*@
+
+<!-- Warming Up -->
+<link href='http://fonts.googleapis.com/css?family=Buenard:700' rel='stylesheet' type='text/css'>
+<script src="http://pupunzi.com/mb.components/mb.YTPlayer/demo/inc/jquery.mb.YTPlayer.js"></script>
+
+<!--Video Section-->
+<section class="content-section video-section">
+	<div class="pattern-overlay">
+		<a id="bgndVideo" class="player" data-property="{videoURL:'https://www.youtube.com/watch?v=fdJc1_IBKJA',containment:'.video-section', quality:'large', autoPlay:true, mute:true, opacity:1}">bg</a>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1>Talent Unleash</h1>  
+					<h3>discovering, showcasing and harnessing great talents and skills</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--Video Section Ends Here-->
+
+
+<section class="full-section dark-section parallax" id="section-15" data-stellar-background-ratio="0.3">
+	<div class="full-section-container">
+				
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 text-center">
+							
+					<h2 class="text-light">Talent Unleash<br class="hidden-xs"> About the Contest</h2>
+								
+					<br>
+								
+					<p style="font-size: 18px;">Talents Unleash is a talent show and skill exhibition aimed at discovering, showcasing and harnessing great talents and skills in across different fields of endeavors including entertainment, sports, science etc.
+					<br class="hidden-xs">
+						The  focus is on  young people who may not have had any opportunity to bring their talent to the public domain and may not know how to apply their talents and skills to productive ventures.
+					</p>
+								
+					<br><br>
+								
+					<a class="btn btn-grey bordered btn-lg" href="@Url.Action("About", "Home")">Learn More</a>
+								
+				</div><!-- col -->
+			</div><!-- row -->
+		</div><!-- container -->
+					
+	</div><!-- full-section-container -->
+</section><!-- full-section -->
+
+
+<h2 style="color: purple">Most Recent Contestants</h2>
+
+@*<p>
+	@Html.ActionLink("Create New", "Create")
+</p>*@
+
+@*
+		<td>
+			@Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+			@Html.ActionLink("Details", "Details", new { id = item.ID }) |
+			@Html.ActionLink("Delete", "Delete", new { id = item.ID })
+		</td>
+	</tr>
+*@
+
+<div class="row">
+	<div class="large-12 columns">
+		<div class="owl-carousel owl-theme">
+
+			@foreach (var item in Model.Contestants)
+			{
+				<div class="item">
+					<div class="thumbnail">
+						<img class="group list-group-image" src="@item.Images.FirstOrDefault().Path" alt=""/>
+						<div class="caption">
+							<h4 class="group inner list-group-item-heading">
+								@item.Name
+							</h4>
+							<p class="lead" style="text-align: center;">
+								</p>
+							<div class="row text-center">
+								<div class="col-xs-12 col-md-6">
+									<p style="font-size: 22px">@item.States</p>
+								</div>
+								<div class="col-xs-12 col-md-6">
+									@Html.ActionLink("View Candidate", "Details", new {id = item.ID}, new {@class = "btn btn-primary btn-plan-select"})
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				@*<div class="item">
+					<img class="group list-group-image" src="@item.Images.FirstOrDefault().Path" alt="" />
+				</div>*@
+
+			}
+		</div>
+	</div>
+
+	@*<div class="text-center">
+		<ul class="pagination">
+			<li><a class="btn btn-primary play">Play</a></li>
+			<li><a class="btn btn-primary stop">Stop</a></li>
+		</ul>
+	</div>*@
+</div>
+
+@* Display Categories *@
+
+<div class="container" style="width: 100%;">
+	<h2 style="color: purple">Categories</h2>
+	<div id="categories-list" class="row list-group">
+
+		@foreach (Category cat in Model.Categories)
+		{
+			
+			<div class="item col-md-3 col-sm-6 col-xs-12">
+				<div class="thumbnail">
+					<img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt=""/>
+					<div class="caption">
+						<h4 class="group inner list-group-item-heading">
+							@cat.Title</h4>
+						<p class="group inner list-group-item-text">
+							@cat.Description</p>
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+								@Html.ActionLink("View Category", "Categories", "Contestants", new {id = cat.Id}, new { @class = "btn btn-primary", style="margin-top: 10px;"})
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+
+	</div>
+</div>
+		
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.js"></script>
+<script>
+	$('.owl-carousel').owlCarousel({
+		autoplay:true,
+		autoplayTimeout:1000,
+		autoplayHoverPause:true,
+		loop: true,
+		dots: false,
+		margin: 10,
+		nav: false,
+		responsive: {
+			0: {
+				items: 1
+			},
+			600: {
+				items: 3
+			},
+			1000: {
+				items: 4
+			}
+		}
+	})
+</script>
+<script>
+	$(document).ready(function () {
+
+		$(".player").mb_YTPlayer();
+
+	});
+</script>

@@ -1,0 +1,447 @@
+﻿@model OnlineContestSystem.ViewModels.MessageReplyViewModel
+@using Microsoft.AspNet.Identity
+@using OnlineContestSystem.Models
+
+@using PagedList;
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+@{
+    Layout = null;
+}
+
+<style>
+    .panel-heading {
+        padding: 10px 15px;
+        border-bottom: 1px solid transparent;
+        border-top-right-radius: 3px;
+        border-top-left-radius: 3px;
+    }
+
+    input, select, textarea {
+        max-width: 450px;
+    }
+
+    .panel-default {
+        border-color: #ddd !important;
+    }
+
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.8/sweetalert2.min.css" />
+<br />
+<br />
+
+
+<div id="msgs" class="container">
+    <h2 class="text-center">TALENT UNLEASH ROUND TABLE</h2>
+    <div class="row col-md-4">
+
+        <div class="panel panel-default" style="height: 80vh">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Share a challenge
+                    <br />
+                    <span style="font-size: 10px;"> (that you have encountered in developing your talent)</span>
+                </h4>
+            </div>
+            <div class="panel-body">
+
+
+                <div id="ajaxReplace">
+                    @*@using (Ajax.BeginForm("Create", "Message", new { @id = "createForm"}, new AjaxOptions { UpdateTargetId = "ajaxReplace" }))*@
+
+                    @using (Html.BeginForm("Create", "Message", null, FormMethod.Post,
+new { @id = "askForm" }))
+                    {
+
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                        <div class="form-group">
+                            <input id="Subject" name="Subject" type="text" class="form-control" required>
+                            <label for="Subject">Title</label>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="MessageToPost" name="MessageToPost" class="form-control" required></textarea>
+                            <label for="MessageToPost">Details</label>
+                        </div>
+
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <button type="submit" id="submit" name="submit" class="btn btn-primary btn-sm btn-block" role="button">Ask Question as @User.Identity.GetUserName()</button>
+                        }
+                        else
+                        {
+                            <button type="submit" name="submit" id="submit" class="btn btn-primary btn-sm btn-block" role="button">Login to Ask a Question</button>
+                        }
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="row col-md-7">
+        <div class="panel panel-default" style="height: 80vh">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-comment"></span>
+                <h3 class="panel-title">
+                    Recent Challenges..
+                </h3>
+                <span class="label label-info">
+                    @Model.Messages.Count.ToString()
+                </span>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+
+                    @foreach (var qtns in Model.Messages)
+                    {
+                        string selectedRow = "";
+                        if (qtns.Id == ViewBag.MessageId)
+                        {
+                            selectedRow = "success";
+                        }
+                        <li class="list-group-item @selectedRow">
+                            <div class="row">
+                                <div class="col-xs-2 col-md-1">
+                                    <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" />
+                                </div>
+                                <div class="col-xs-10 col-md-11">
+                                    <div>
+                                        <a href="#">
+                                            @qtns.Subject
+                                        </a>
+                                        <div class="mic-info">
+                                            @qtns.MessageToPost
+                                        </div>
+                                    </div>
+                                    <div class="comment-text">
+                                        @*@Html.ActionLink("View Replies", "Index", new { Id = qtns.Id }, new {@class = "btn btn-success pull-right"})*@
+                                        @Ajax.ActionLink("View Replies", "Index", new { Id = qtns.Id }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "msgs" }, new { @class = "btn btn-success pull-right" })
+                                    </div>
+                                    @*<button id="@qtns.Id" onclick="OpenDialog()" class="btn btn-primary btn-success">View Replies</button>*@
+                                    @*@if (User.IsInRole("Admin"))
+                                        {
+                                            <div class="action">
+                                                <button onclick="location.href = '@Url.Action("Edit", "", new {id = qtns.Id})'" type="button" class="btn btn-primary btn-xs" title="Edit">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button onclick="location.href = '@Url.Action("Edit", "Asks", new {id = qtns.Id})'" type="button" class="btn btn-success btn-xs" title="Approved">
+                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                </button>
+                                                <button onclick="location.href = '@Url.Action("Edit", "Asks", new {id = qtns.Id})'" type="button" class="btn btn-danger btn-xs" title="Delete">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+
+                                        }*@
+                                </div>
+                            </div>
+                        </li>
+                    }
+
+                </ul>
+                <div id="myPager">
+                    @Html.PagedListPager(
+                        Model.Messages,
+                        page => Url.Action("Index", new { page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "msgs" })
+                        )
+                </div>
+                @*<a href="" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="replyPortion" class="container">
+    @if (Model.Replies != null && ViewBag.MessageId != null)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Replies for Message
+                </h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="form-horizontal container">
+
+                    <div class="form-column col-lg-12 col-md-12 col-sm-12">
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <table class="table">
+                                    <tr>
+                                        <td>
+
+                                            <div class="form-group">
+                                                <span><b>Message Details: </b></span>
+                                                @foreach (var item in Model.Replies)
+                                                {
+                                                    if (item.MessageId == ViewBag.MessageId)
+                                                    {
+
+                                                        @item.MessageDetails
+                                                    }
+                                                }
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div id="replyField" class="form-group">
+                                                @using (Html.BeginForm("ReplyMessage", "Message", new { id = "form-reply-message", messageId = @ViewBag.MessageId }, FormMethod.Post,
+                    new { @id = "replyForm", enctype = "multipart/form-data" }))
+
+
+                                                {
+
+                                                    if (!ViewData.ModelState.IsValid)
+                                                    {
+                                                        <div class="row">
+                                                            <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                                                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                                                @Html.ValidationSummary(true)
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    @Html.HiddenFor(model => model.Reply.MessageId, new { id = "MessageId" })
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 ">Reply</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.TextAreaFor(p => p.Reply.ReplyMessage, new { id = "ReplyMessage", @rows = 2, @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Reply.ReplyMessage)
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2">
+                                                            Reply Video
+                                                        </label>
+                                                        <div class="col-sm-9">
+
+                                                            <label class="btn btn-default btn-file">
+                                                                Browse <input type="file" accept="video/*" name="file" id="ImagePath" onchange="$('#upload-file-info').html(this.files[0].name)" style="display: none;">
+                                                            </label>
+                                                            <span class='label label-info' id="upload-file-info"></span>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-1">
+                                                        <input type="submit" id="replySubmit" name="submit" class="btn btn-primary btn-success" value="Reply">
+
+                                                    </div>
+                                                }
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+
+                                <h4>Replies for the Message</h4>
+                                <table class="table">
+                                    @foreach (var item in Model.Replies)
+                                    {
+                                        if (item.MessageId == ViewBag.MessageId)
+                                        {
+                                            <tr id="replyTable">
+                                                <td>
+
+                                                    <div>
+                                                        <span><b>Reply Message : </b></span>
+                                                        @item.ReplyMessage
+                                                    </div>
+
+                                                    <div>
+                                                        <span><b>Reply From : </b>  </span>
+                                                        @item.ReplyFrom
+                                                        @item.ReplyVideo.FirstOrDefault().Path
+                                                        @Model.Replies.Count.ToString()
+                                                    </div>
+                                                    <div>
+                                                        <span>
+                                                            <b>Reply Date : </b>
+                                                        </span>
+                                                        @item.ReplyDateTime
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    <div>
+                                        <span><b>Reply Video : </b> </span>
+
+
+                                        @*@foreach (var path in Model.Reply.ReplyVideo)
+                                        {
+                                            if (path.Path.ToUpper().Contains(".mp4".ToUpper()) ||
+                                                path.Path.ToUpper().Contains(".3gp".ToUpper()))
+                                            {
+                                                <a class="fancybox" href="@path.Path">
+                                                    <video style="width: 30%; margin-right: 1%; margin-left: 1%; margin-bottom: 0.5em;" controls>
+                                                        <source src="@path.Path" type="video/mp4">
+                                                        Sorry, your browser does not support videos.
+                                                    </video>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="fancybox" href="@path.Path">
+                                                    <img src="@path.Path" style="width: 30%; margin-right: 1%; margin-left: 1%; margin-bottom: 0.5em;">
+                                                </a>
+                                            }
+
+                                        }*@
+                                    </div>
+
+                                </table>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    <!-- start panel-->
+    }
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.8/sweetalert2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.2.0/ekko-lightbox.js"></script>
+<script>
+    $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+</script>
+<script>
+    function doIt() {
+        //var $replyForm = $('#replySubmit');
+        //$replyForm.click(function(e) {
+        //    e.preventDefault();
+        //document.getElementById('replyForm').submit();
+        $('#replyTable').load(document.URL + ' #replyTable');
+        swal('Thanks!', 'Your message has been sent succesfully!', 'success');
+        document.getElementById("replyForm").reset();
+    };
+
+
+    //$.ajax({
+    //    url: '/Message/ReplyMessage',
+    //    type: 'POST',
+    //    data: {
+    //        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').val()
+    //    },
+
+    //    beforeSend: function() {
+    //        swal('Sending your message...');
+    //        swal.showLoading();
+    //    },
+    //    success: function(data) {
+
+
+
+    //    },
+    //    error: function(err) {
+    //        swal('Oops...', 'There was an error! Are you missing out anything?', 'error');
+    //        console.log(err.error);
+    //    }
+
+    //});
+
+
+    //$(document).ready(function () {
+    //    var $replyForm = $('#replySubmit');
+
+    //    $replyForm.click(function () {
+
+    //        document.getElementById("replyForm").submit();
+    //        $(this).parents('replyForm').submit();
+
+
+    //            var formData = new FormData();
+    //            var totalFiles = document.getElementById("FileUpload").files.length;
+    //            for (var i = 0; i < totalFiles; i++) {
+    //                var file = document.getElementById("FileUpload").files[i];
+
+    //                formData.append("FileUpload", file);
+    //            }
+    //            $.ajax({
+    //                type: "POST",
+    //                url: '/Message/ReplyMessage',
+    //                data: formData,
+    //                dataType: 'json',
+    //                contentType: false,
+    //                processData: false,
+    //                success: function (response) {
+    //                    alert('succes!!');
+    //                },
+    //                error: function (error) {
+    //                    alert("errror");
+    //                }
+    //            });
+    //        });
+    //    });
+
+    var $askForm = $('#askForm');
+    $askForm.submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/Message/Create',
+            type: 'POST',
+            data: {
+                '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').val(),
+                'Subject': $('#Subject').val(),
+                'MessageToPost': $('#MessageToPost').val()
+            },
+            //dataType: 'json',
+            beforeSend: function () {
+                swal('Sending your message...');
+                swal.showLoading();
+            },
+            success: function (data) {
+                swal('Thanks!', 'Your message has been sent succesfully!', 'success');
+                document.getElementById("askForm").reset();
+                $('#msgs').load(document.URL + ' #msgs');
+
+            },
+            error: function (err) {
+                swal('Oops...', 'There was an error! Are you missing out anything?', 'error');
+                console.log(err.error);
+            }
+        });
+    });
+
+</script> 
