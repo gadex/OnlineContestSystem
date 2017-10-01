@@ -51,6 +51,7 @@ namespace OnlineContestSystem.Controllers
                     foreach (var rep in replies)
                     {
                         MessageReplyViewModel.MessageReply reply = new MessageReplyViewModel.MessageReply();
+                        reply.ReplyVideo = rep.ReplyVideo;
                         reply.MessageId = rep.MessageId;
                         reply.Id = rep.Id;
                         reply.ReplyMessage = rep.ReplyMessage;

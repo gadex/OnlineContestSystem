@@ -102,7 +102,7 @@ namespace OnlineContestSystem.Controllers
                     _reply.MessageId = messageId;
                     _reply.ReplyFrom = fullName;
                     _reply.ReplyMessage = vm.Reply.ReplyMessage;
-                    _reply.ReplyVideo.FirstOrDefault().Path = vm.Reply.ReplyVideo.FirstOrDefault().Path;
+                _reply.ReplyVideo = vm.Reply.ReplyVideo;
                     db.Replies.Add(_reply);
                     db.SaveChanges();
                 
