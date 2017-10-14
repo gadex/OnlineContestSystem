@@ -238,8 +238,7 @@ namespace OnlineContestSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Contestant contestant)
         {
-            HttpPostedFileBase file1 = null;
-            HttpPostedFileBase file2 = null;
+            
 
             if (ModelState.IsValid || Request.Form.AllKeys.Contains("catID"))
             {
@@ -251,52 +250,43 @@ namespace OnlineContestSystem.Controllers
                 }
                 contestant.Category = db.Categories.Find(id);
                 //It would throw a IndexOutOfRange exception if there is only 1 file
-                try
+              
+
+                for (int i = 0; i < Request.Files.Count; i++)
                 {
-                    // IEnumerable<HttpPostedFileBase> httpPostedFileBases = files as HttpPostedFileBase[] ?? files.ToArray();
-                    file1 = Request.Files[0]; //Gets the first image
-                    file2 = Request.Files[1]; //Gets the second image
-                }
-                catch (Exception e)
-                {
+                    //since the first is the profile handle first as such
+                    if (i == 0)
+                    {
+                        HttpPostedFileBase file = Request.Files[i];
+                        var path = "~/Images/ProfPath/" + User.Identity.GetUserId() + "/" + contestant.Name +
+                                          "/";
+                        var dir = new DirectoryInfo(HttpContext.Server.MapPath(path));
 
-                    //Log error, or redirect or whatever
-                }
+                        if (!dir.Exists) dir.Create();
 
-
-
-                //This is your former logical check, dont try this next time always wrap complex if
-                //statements if not you might have unexpected results
-                // file1 != null && file1.ContentLength > 0 && file2 != null && file2.ContentLength > 0
-                if (((file1 != null) && (file1.ContentLength > 0)) && ((file2 != null) && (file2.ContentLength > 0)))
-                {
-                    var savePath1 = "~/Images/" + User.Identity.GetUserId() + "/" + contestant.Name + "/";
-                    var dir1 = new DirectoryInfo(HttpContext.Server.MapPath(savePath1));
-                    if (!dir1.Exists) dir1.Create();
-                    file1.SaveAs(HttpContext.Server.MapPath(savePath1) + file1.FileName);
-
-
-                    if (contestant.Images != null)
-                        contestant.Images.Add(new Media { Path = "/Images/" + (string.IsNullOrEmpty(User.Identity.GetUserId()) ? "" : User.Identity.GetUserId() + "/") + contestant.Name + "/" + file1.FileName });
+                        file.SaveAs(HttpContext.Server.MapPath(path) + file.FileName);
+                        if (contestant.ProfilePic != null) contestant.ProfilePic.Add(new Media { Path = "/Images/ProfPath/" + (string.IsNullOrEmpty(User.Identity.GetUserId()) ? "" : User.Identity.GetUserId() + "/") + contestant.Name + "/" + file.FileName });
+                        else
+                            contestant.ProfilePic = new List<Media> { new Media { Path = "/Images/ProfPath/" + (string.IsNullOrEmpty(User.Identity.GetUserId()) ? "" : User.Identity.GetUserId() + "/") + contestant.Name + "/" + file.FileName } };
+                    }
                     else
-                        contestant.Images = new List<Media> { new Media { Path = "/Images/" + (string.IsNullOrEmpty(User.Identity.GetUserId()) ? "" : User.Identity.GetUserId() + "/") + contestant.Name + "/" + file1.FileName } };
+                    {
+                        HttpPostedFileBase file = Request.Files[i];
+                        var path = "~/Images/" + User.Identity.GetUserId() + "/" + contestant.Name + "/";
+                        var dir = new DirectoryInfo(HttpContext.Server.MapPath(path));
 
+                        if (!dir.Exists) dir.Create();
 
-                    var profPath = "~/Images/ProfPath/" + User.Identity.GetUserId() + "/" + contestant.Name +
-                                           "/";
-                    var dir2 = new DirectoryInfo(HttpContext.Server.MapPath(profPath));
+                        file.SaveAs(HttpContext.Server.MapPath(path) + file.FileName);
+                        if (contestant.Images != null)
+                            contestant.Images.Add(new Media { Path = "/Images/" + (string.IsNullOrEmpty(User.Identity.GetUserId()) ? "" : User.Identity.GetUserId() + "/") + contestant.Name + "/" + file.FileName });
+                        else
+                            contestant.Images = new List<Media> { new Media { Path = "/Images/" + (string.IsNullOrEmpty(User.Identity.GetUserId()) ? "" : User.Identity.GetUserId() + "/") + contestant.Name + "/" + file.FileName } };
 
-                    if (!dir2.Exists)
-                        dir2.Create();
-
-                    file2.SaveAs(HttpContext.Server.MapPath(profPath) + file2.FileName);
-
-                    if (contestant.ProfilePic != null) contestant.ProfilePic.Add(new Media { Path = "/Images/ProfPath/" + (string.IsNullOrEmpty(User.Identity.GetUserId()) ? "" : User.Identity.GetUserId() + "/") + contestant.Name + "/" + file2.FileName });
-                    else
-                        contestant.ProfilePic = new List<Media> { new Media { Path = "/Images/ProfPath/" + (string.IsNullOrEmpty(User.Identity.GetUserId()) ? "" : User.Identity.GetUserId() + "/") + contestant.Name + "/" + file2.FileName } };
-
+                    }
                 }
 
+              
               
                 var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
                 var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
