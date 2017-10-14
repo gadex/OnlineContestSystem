@@ -6,8 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using OnlineContestSystem.Models;
 using OnlineContestSystem.ViewModels;
 using PagedList;
@@ -31,7 +33,8 @@ namespace OnlineContestSystem.Controllers
                 Contestants = db.Contestants.OrderByDescending(x => x.ID).Take(10).ToList(),
                 Categories = db.Categories.ToList(),
                 KnownTalents = db.KnownTalents.ToList(),
-                Blogs = db.Blogs.ToList()
+                Blogs = db.Blogs.ToList(),
+                ChallengeVideos = db.ChallengeVideos.ToList()
             };
             var count = db.Messages.Count();
 
@@ -233,8 +236,11 @@ namespace OnlineContestSystem.Controllers
         // POST: Contestants/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Contestant contestant, HttpPostedFileBase file, HttpPostedFileBase pic)
+        public ActionResult Create(Contestant contestant, IEnumerable<HttpPostedFileBase> files)
         {
+            HttpPostedFileBase file1;
+            HttpPostedFileBase file2;
+
             if (ModelState.IsValid || Request.Form.AllKeys.Contains("catID"))
             {
                 var id = 0;
@@ -245,36 +251,150 @@ namespace OnlineContestSystem.Controllers
                 }
                 contestant.Category = db.Categories.Find(id);
 
-                for (var i = 0; i < Request.Files.Count; i++)
+                IEnumerable<HttpPostedFileBase> httpPostedFileBases = files as HttpPostedFileBase[] ?? files.ToArray();
+                file1 = httpPostedFileBases.ElementAt(0); //Gets the first image
+                file2 = httpPostedFileBases.ElementAt(1); //Gets the second image
+
+                if (httpPostedFileBases.ElementAt(0) != null && httpPostedFileBases.ElementAt(1) != null)
                 {
-                    var savePath = "~/Images/" + User.Identity.GetUserId() + "/" + contestant.Name + "/";
-                    var dir = new DirectoryInfo(HttpContext.Server.MapPath(savePath));
+                    if (file1 != null && file1.ContentLength > 0 && file2 != null && file2.ContentLength > 0)
+                    {
+
+                        for (var i = 0; i < Request.Files.Count; i++)
+                        {
+                            var savePath = "~/Images/" + User.Identity.GetUserId() + "/" + contestant.Name + "/";
+                            var dir = new DirectoryInfo(HttpContext.Server.MapPath(savePath));
 
 
-                    if (!dir.Exists)
-                        dir.Create();
+                            if (!dir.Exists)
+                                dir.Create();
 
 
-                    file = Request.Files[i];
-                    file.SaveAs(HttpContext.Server.MapPath(savePath)
-                                + file.FileName);
+                            file1 = Request.Files[i];
+                            file1.SaveAs(HttpContext.Server.MapPath(savePath)
+                                             + file1.FileName);
 
-                    var profPath = "~/Images/ProfPath/" + User.Identity.GetUserId() + "/" + contestant.Name + "/";
-                    var dir2 = new DirectoryInfo(HttpContext.Server.MapPath(profPath));
+                            if (contestant.Images != null)
+                                contestant.Images.Add(new Media
+                                {
+                                    Path = "/Images/" +
+                                           (string.IsNullOrEmpty(User.Identity.GetUserId())
+                                               ? ""
+                                               : User.Identity.GetUserId() + "/") + contestant.Name + "/" + file1.FileName
+                                });
+                            else
+                                contestant.Images =
+                                    new List<Media>
+                                    {
+                                        new Media
+                                        {
+                                            Path = "/Images/" +
+                                                   (string.IsNullOrEmpty(User.Identity.GetUserId())
+                                                       ? ""
+                                                       : User.Identity.GetUserId() + "/") + contestant.Name + "/" +
+                                                   file1.FileName
+                                        }
+                                    };
+                        }
 
-                    if (!dir2.Exists)
-                        dir2.Create();
+                        for (var i = 0; i < Request.Files.Count; i++)
+                        {
+                            var profPath = "~/Images/ProfPath/" + User.Identity.GetUserId() + "/" + contestant.Name +
+                                           "/";
+                            var dir2 = new DirectoryInfo(HttpContext.Server.MapPath(profPath));
 
-                    pic = Request.Files[i];
-                    pic.SaveAs(HttpContext.Server.MapPath(profPath)
-                               + pic.FileName);
+                            if (!dir2.Exists)
+                                dir2.Create();
+
+                            file2 = Request.Files[i];
+                            file2.SaveAs(HttpContext.Server.MapPath(profPath)
+                                         + file2.FileName);
+
+                            if (contestant.ProfilePic != null)
+                                contestant.ProfilePic.Add(new Media
+                                {
+                                    Path = "/Images/ProfPath/" +
+                                           (string.IsNullOrEmpty(User.Identity.GetUserId())
+                                               ? ""
+                                               : User.Identity.GetUserId() + "/") + contestant.Name + "/" +
+                                           file2.FileName
+                                });
+                            else
+                                contestant.ProfilePic =
+                                    new List<Media>
+                                    {
+                                        new Media
+                                        {
+                                            Path = "/Images/ProfPath/" +
+                                                   (string.IsNullOrEmpty(User.Identity.GetUserId())
+                                                       ? ""
+                                                       : User.Identity.GetUserId() + "/") + contestant.Name + "/" +
+                                                   file2.FileName
+                                        }
+                                    };
+                        }
+                    }
+
+                }
+
+                var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+                string uID = User.Identity.GetUserId();
+
+                UserManager.AddToRole(uID, "Contestant");
+
+                //ApplicationUserManager.AddToRoleAsync(uID, "User");
+                //System.Web.Security.Roles.AddUserToRole(uID, "Contestant");
+                db.Contestants.Add(contestant);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.Categories = new SelectList(db.Categories.ToList(), "Id", "Title");
+            return View(contestant);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult Upload(Contestant contestant)
+        {
+            var savePath = "~/Images/" + User.Identity.GetUserId() + "/" + contestant.Name + "/";
+            var dir = new DirectoryInfo(HttpContext.Server.MapPath(savePath));
+
+
+                if (!dir.Exists)
+                    dir.Create();
+
+
+            string _imgname = string.Empty;
+            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
+            {
+                var pic = System.Web.HttpContext.Current.Request.Files["MyImages"];
+                if (pic.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(pic.FileName);
+                    var _ext = Path.GetExtension(pic.FileName);
+
+                    _imgname = Guid.NewGuid().ToString();
+                    var _comPath = Server.MapPath("/Images/" + User.Identity.GetUserId() + "/" + contestant.Name + "/") + _imgname + _ext;
+                    _imgname = _imgname + _ext;
+
+                    ViewBag.Videos = _comPath;
+                    var path = _comPath;
+
+                    // Saving Image in Original Mode
+                    pic.SaveAs(path);
+
+                    // resizing image
+                    MemoryStream ms = new MemoryStream();
+                    WebImage img = new WebImage(_comPath);
+                    
+                    img.Save(_comPath);
+                    // end resize
+
                     if (contestant.Images != null)
                         contestant.Images.Add(new Media
                         {
-                            Path = "/Images/" +
-                                   (string.IsNullOrEmpty(User.Identity.GetUserId())
-                                       ? ""
-                                       : User.Identity.GetUserId() + "/") + contestant.Name + "/" + file.FileName
+                            Path = path
                         });
                     else
                         contestant.Images =
@@ -282,21 +402,54 @@ namespace OnlineContestSystem.Controllers
                             {
                                 new Media
                                 {
-                                    Path = "/Images/" +
-                                           (string.IsNullOrEmpty(User.Identity.GetUserId())
-                                               ? ""
-                                               : User.Identity.GetUserId() + "/") + contestant.Name + "/" +
-                                           file.FileName
+                                    Path = path
                                 }
                             };
+                }
+            }
+            return Json(Convert.ToString(_imgname), JsonRequestBehavior.AllowGet);
+        }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult UploadFile( Contestant contestant)
+        {
+            var profPath = "~/Images/ProfPath/" + User.Identity.GetUserId() + "/";
+            var dir2 = new DirectoryInfo(HttpContext.Server.MapPath(profPath));
+
+            if (!dir2.Exists)
+                dir2.Create();
+            string _imgname = string.Empty;
+            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
+            {
+                var pic = System.Web.HttpContext.Current.Request.Files["MyImages"];
+                if (pic.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(pic.FileName);
+                    var _ext = Path.GetExtension(pic.FileName);
+
+                    _imgname = Guid.NewGuid().ToString();
+                    var _comPath = Server.MapPath("/Images/ProfPath/" + User.Identity.GetUserId() + "/" ) + _imgname + _ext;
+                    _imgname =_imgname + _ext;
+
+                    ViewBag.ProfilePic = _comPath;
+                    var path = _comPath;
+
+                    // Saving Image in Original Mode
+                    pic.SaveAs(path);
+
+                    // resizing image
+                    MemoryStream ms = new MemoryStream();
+                    WebImage img = new WebImage(_comPath);
+
+                    if (img.Width > 100)
+                        img.Resize(100, 100);
+                    img.Save(_comPath);
+                    // end resize
+                    
                     if (contestant.ProfilePic != null)
                         contestant.ProfilePic.Add(new Media
                         {
-                            Path = "/Images/ProfPath/" +
-                                   (string.IsNullOrEmpty(User.Identity.GetUserId())
-                                       ? ""
-                                       : User.Identity.GetUserId() + "/") + contestant.Name + "/" + pic.FileName
+                            Path = path
                         });
                     else
                         contestant.ProfilePic =
@@ -304,20 +457,12 @@ namespace OnlineContestSystem.Controllers
                             {
                                 new Media
                                 {
-                                    Path = "/Images/ProfPath/" +
-                                           (string.IsNullOrEmpty(User.Identity.GetUserId())
-                                               ? ""
-                                               : User.Identity.GetUserId() + "/") + contestant.Name + "/" + pic.FileName
+                                    Path = path
                                 }
                             };
                 }
-
-                db.Contestants.Add(contestant);
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            ViewBag.Categories = new SelectList(db.Categories.ToList(), "Id", "Title");
-            return View(contestant);
+            return Json(Convert.ToString(_imgname), JsonRequestBehavior.AllowGet);
         }
 
         // GET: Contestants/Edit/5

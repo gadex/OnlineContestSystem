@@ -13,6 +13,7 @@ namespace OnlineContestSystem.ViewModels
         public List<Contestant> Contestants { get; set; }
         public List<Blog> Blogs { get; set; }
         public List<KnownTalents> KnownTalents { get; set; }
+        public List<ChallengeVideo> ChallengeVideos{ get; set; }
 
         private List<MessageReply> _replies = new List<MessageReply>();
         public Reply Reply { get; set; }

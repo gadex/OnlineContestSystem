@@ -1,10 +1,23 @@
-﻿@model OnlineContestSystem.Models.Contestant
+﻿@using Microsoft.AspNet.Identity
+@model OnlineContestSystem.Models.Contestant
 
 @{
     ViewBag.Title = "Create";
 
 
 }
+
+<style>
+    #UploadImg
+    {
+        display: none;
+    }
+
+    #imgPreview
+    {
+        cursor: pointer;
+    }
+</style>
 
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -40,7 +53,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
                                     <div class="col-md-9">
-                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "ContestantName"} })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -50,8 +63,11 @@
                                         @Html.LabelFor(model => model.ProfilePic)
                                     </div>
                                     <div class="col-md-9">
-                                        <input id="PicPath" title="Upload Your Profile Pic"
-                                               type="file" name="pic" accept="image/*" />
+                                        @*<input id="PicPath" title="Upload Your Profile Pic"
+                                               type="file" name="pic" accept="image/*" />*@
+                                        <image id="imgPreview" src="~/Content/profile.png" height="100" width="100"/>
+                                        <input id="file2" type="file" 
+                                               name="files" placeholder="Photo" required="" capture>
                                     </div>
                                 </div>
 
@@ -93,8 +109,8 @@
                                         @Html.LabelFor(model => model.Images)
                                     </div>
                                     <div class="col-md-9">
-                                        <input id="ImagePath" title="Upload videos or pictures that depict your talent"
-                                               type="file" multiple name="file" accept="images/*" />
+                                        <input id="file1" title="Upload videos or pictures that depict your talent"
+                                               type="file" multiple name="files" accept="images/*" />
                                     </div>
                                 </div>
 
@@ -133,21 +149,73 @@
 
     @Scripts.Render("~/bundles/jqueryui")
 
+    @*<script>
+        $("#ImagePath").change(function() {
+            var data = new FormData();
+            var files = $("#ImagePath").get(0).files;
+            if (files.length > 0) {
+                data.append("MyImages", files[0]);
+            }
+
+            $.ajax({
+                url: "/Contestants/Upload",
+                type: "POST",
+                processData: false,
+                contentType: false,
+                data: data,
+                success: function(response) {
+                    //code after success
+                    //$("#txtImg").val(response);
+                    //$("#imgPreview").attr('src', '/Images/@User.Identity.GetUserId()/@Model.Name' + response);
+                    alert('This was done successfully.');
+                },
+                error: function(er) {
+                    alert(er);
+                }
+
+            });
+        });
+</script>*@
+
+    <script>
+        $("#UploadImg").change(function() {
+            var data = new FormData();
+            var files = $("#UploadImg").get(0).files;
+            if (files.length > 0) {
+                data.append("MyImages", files[0]);
+            }
+
+            @*$.ajax({
+                url: "/Contestants/UploadFile",
+                type: "POST",
+                processData: false,
+                contentType: false,
+                data: data,
+                success: function(response) {
+                    //code after success
+                    //$("#txtImg").val(response);
+                    $("#imgPreview").attr('src', '/Images/ProfPath/@User.Identity.GetUserId()/' + response);
+                },
+                error: function(er) {
+                    alert(er);
+                }
+
+            });*@
+        });
+    </script>
+
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            $('input[type=datetime]').datepicker({
-                dateFormat: "dd/M/yy",
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-60:+0"
+        $(document).ready(function() {
+            $("#imgPreview").click(function(e) {
+                $("#UploadImg").click();
             });
 
         });
     </script>
     <script>
-        $(function () {
-            $("input[type='submit']").click(function () {
+        $(function() {
+            $("input[type='submit']").click(function() {
                 var $fileUpload = $("input[type='file']");
                 if (parseInt($fileUpload.get(0).files.length) > 2) {
                     alert("You can only upload a maximum of 2 files");

@@ -223,11 +223,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlogsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\ChallengeVideosController.cs" />
     <Compile Include="Controllers\ContestantsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KnownTalentsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SweetController.cs" />
@@ -408,6 +410,17 @@
     <Content Include="Views\Message\Create.cshtml" />
     <Content Include="Views\Contestants\ReplyMessage.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\Home\Terms.cshtml" />
+    <Content Include="Views\ChallengeVideos\Create.cshtml" />
+    <Content Include="Views\ChallengeVideos\Delete.cshtml" />
+    <Content Include="Views\ChallengeVideos\Details.cshtml" />
+    <Content Include="Views\ChallengeVideos\Edit.cshtml" />
+    <Content Include="Views\ChallengeVideos\Index.cshtml" />
+    <Content Include="Views\Media\Create.cshtml" />
+    <Content Include="Views\Media\Delete.cshtml" />
+    <Content Include="Views\Media\Details.cshtml" />
+    <Content Include="Views\Media\Edit.cshtml" />
+    <Content Include="Views\Media\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

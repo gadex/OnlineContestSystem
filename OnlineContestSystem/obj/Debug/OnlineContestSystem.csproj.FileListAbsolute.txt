@@ -10,7 +10,6 @@ c:\users\jacobs gad\documents\visual studio 2015\Projects\OnlineContestSystem\On
 c:\users\jacobs gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\roslyn\vbc.exe
 c:\users\jacobs gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\roslyn\VBCSCompiler.exe
 c:\users\jacobs gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\roslyn\VBCSCompiler.exe.config
-c:\users\jacobs gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\OnlineContestSystem.dll.config
 c:\users\jacobs gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\OnlineContestSystem.dll
 c:\users\jacobs gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\OnlineContestSystem.pdb
 c:\users\jacobs gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\Antlr3.Runtime.dll
@@ -239,3 +238,9 @@ C:\Users\Jaytee\Source\Repos\OnlineContestSystem2\OnlineContestSystem\obj\Debug\
 C:\Users\Jaytee\Source\Repos\OnlineContestSystem2\OnlineContestSystem\obj\Debug\OnlineContestSystem.csproj.CoreCompileInputs.cache
 C:\Users\Jaytee\Source\Repos\OnlineContestSystem2\OnlineContestSystem\obj\Debug\OnlineContestSystem.dll
 C:\Users\Jaytee\Source\Repos\OnlineContestSystem2\OnlineContestSystem\obj\Debug\OnlineContestSystem.pdb
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\PagedList.dll
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\PagedList.Mvc.dll
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\PagedList.xml
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\PagedList.Mvc.xml
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\obj\Debug\OnlineContestSystem.csproj.CoreCompileInputs.cache
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\OnlineContestSystem.dll.config

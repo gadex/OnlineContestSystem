@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration;
 
 namespace OnlineContestSystem.Models
 {
@@ -82,30 +84,6 @@ namespace OnlineContestSystem.Models
         public virtual ICollection<Media> TalentImage { get; set; }
     }
 
-    //public class Ask
-    //{
-    //    [Key]
-    //    public int Id { get; set; }
-    //    public string UserName { get; set; }
-    //    [Required]
-    //    public string ChallengeTitle { get; set; }
-    //    [Required]
-    //    public string ChallengeQuestion { get; set; }
-    //    public DateTime AskDate { get; set; }
-    //}
-
-    //public class Reply
-    //{
-    //    [Key]
-    //    public int Id { get; set; }
-    //    public int MessageId { get; set; }
-    //    [Required]
-    //    public string ReplyFrom { get; set; }
-    //    [Required]
-    //    public string ReplyMessage { get; set; }
-    //    public DateTime ReplyDateTime { get; set; }
-    //}
-
     public class ContactUs
     {
         [Required]
@@ -132,6 +110,13 @@ namespace OnlineContestSystem.Models
         public virtual string Message { get; set; }
     }
 
+    public class ChallengeVideo
+    {
+        public int Id { get; set; }
+        public virtual ICollection<Media> ChallengeVid { get; set; }
+        public DateTime UploadDate { get; set; }
+    }
+
     public class ContestantDbContext : DbContext
     {
         public DbSet<Contestant> Contestants { get; set; }
@@ -141,8 +126,9 @@ namespace OnlineContestSystem.Models
         public DbSet<KnownTalents> KnownTalents { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Reply> Replies { get; set; }
+        public DbSet<ChallengeVideo> ChallengeVideos { get; set; }
 
-        //public DbSet<AnswerQuestion> AnswerQuestions { get; set; }
+        public System.Data.Entity.DbSet<OnlineContestSystem.Models.Media> Media { get; set; }
     }
 
     public class Media

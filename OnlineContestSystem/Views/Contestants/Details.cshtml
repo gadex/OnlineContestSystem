@@ -42,10 +42,13 @@
 
 		$('[data-toggle="tooltip"]').tooltip();
 
-		$('button').click(function (e) {
-			e.preventDefault();
-			alert("This is a demo.\n :-)");
-		});
+	    if (!@User.Identity.IsAuthenticated) {
+	        $('button').click(function (e) {
+	            e.preventDefault();
+	            alert("Please log in first.");
+	        });
+	    }
+		
 	});
 </script>
 
@@ -75,7 +78,7 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-3 col-lg-3 " align="center">
-							<img class="img-circle img-responsive" rel="image_src" src="@Model.ProfilePic.FirstOrDefault().Path" alt="" />
+							<img alt="" class="img-circle img-responsive" rel="image_src" src="@Model.ProfilePic.First().Path" />
 						</div>
 
 						<div class="col-xs-10 col-sm-10 hidden-md hidden-lg">
@@ -115,7 +118,7 @@
                                 path.Path.ToUpper().Contains(".3gp".ToUpper()))
                             {
                                 <a class="fancybox" href="@path.Path">
-                                    <video style="width: 30%; margin-right: 1%; margin-left: 1%; margin-bottom: 0.5em;" controls>
+                                    <video style="width: 98%; margin-right: 1%; margin-left: 1%; margin-bottom: 0.5em;" controls>
                                         <source src="@path.Path" type="video/mp4">
                                         Sorry, your browser does not support videos.
                                     </video>
@@ -124,7 +127,7 @@
                             else
                             {
 								<a class="fancybox" href="@path.Path">
-									<img src="@path.Path" style="width: 30%; margin-right: 1%; margin-left: 1%; margin-bottom: 0.5em;">
+									<img src="@path.Path" style="width: 98%; margin-right: 1%; margin-left: 1%; margin-bottom: 0.5em;">
 								</a>
 							}
 							

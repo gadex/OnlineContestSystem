@@ -62,6 +62,14 @@ namespace OnlineContestSystem
 
             }
 
+            if (!roleManager.RoleExists("Contestant"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Contestant";
+                roleManager.Create(role);
+
+            }
+
         }
     }
 }

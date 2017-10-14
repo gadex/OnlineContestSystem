@@ -10,7 +10,6 @@ C:\Users\Jacobs Gad\documents\visual studio 2015\Projects\OnlineContestSystem\On
 C:\Users\Jacobs Gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\roslyn\vbc.exe
 C:\Users\Jacobs Gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\roslyn\VBCSCompiler.exe
 C:\Users\Jacobs Gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\roslyn\VBCSCompiler.exe.config
-C:\Users\Jacobs Gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\OnlineContestSystem.dll.config
 C:\Users\Jacobs Gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\OnlineContestSystem.dll
 C:\Users\Jacobs Gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\OnlineContestSystem.pdb
 C:\Users\Jacobs Gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\Antlr3.Runtime.dll
@@ -82,7 +81,6 @@ C:\Users\Jacobs Gad\documents\visual studio 2015\Projects\OnlineContestSystem\On
 C:\Users\Jacobs Gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\PagedList.Mvc.dll
 C:\Users\Jacobs Gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\PagedList.xml
 C:\Users\Jacobs Gad\documents\visual studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\PagedList.Mvc.xml
-C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\obj\Release\OnlineContestSystem.csproj.CoreCompileInputs.cache
 C:\Users\Jaytee\Source\Repos\OnlineContestSystem2\OnlineContestSystem\bin\roslyn\csc.exe
 C:\Users\Jaytee\Source\Repos\OnlineContestSystem2\OnlineContestSystem\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\Jaytee\Source\Repos\OnlineContestSystem2\OnlineContestSystem\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -168,3 +166,5 @@ C:\Users\Jaytee\Source\Repos\OnlineContestSystem2\OnlineContestSystem\obj\Releas
 C:\Users\Jaytee\Source\Repos\OnlineContestSystem2\OnlineContestSystem\obj\Release\OnlineContestSystem.csproj.CoreCompileInputs.cache
 C:\Users\Jaytee\Source\Repos\OnlineContestSystem2\OnlineContestSystem\obj\Release\OnlineContestSystem.dll
 C:\Users\Jaytee\Source\Repos\OnlineContestSystem2\OnlineContestSystem\obj\Release\OnlineContestSystem.pdb
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\bin\OnlineContestSystem.dll.config
+C:\Users\Jacobs Gad\Documents\Visual Studio 2015\Projects\OnlineContestSystem\OnlineContestSystem\obj\Release\OnlineContestSystem.csproj.CoreCompileInputs.cache

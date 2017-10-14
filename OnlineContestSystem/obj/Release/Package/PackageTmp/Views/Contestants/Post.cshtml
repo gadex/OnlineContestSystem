@@ -3,6 +3,15 @@
 @{
 	ViewBag.Title = "Post";
 }
+
+<style>
+    .generatedblog {
+        width: 500px;
+        height: auto;
+        margin: auto;
+        display: block;
+    }
+</style>
 <br /> <br />
 <div class="container">
 	<div class="row">
@@ -14,7 +23,7 @@
                 </h4>
 				<div class="blog-article-thumbnail">
 
-					<a href="#"><img rel="image_src" src="@Model.BlogImage.FirstOrDefault().Path" class="generated" alt=""></a>
+					<a href="#"><img rel="image_src" src="@Model.BlogImage.FirstOrDefault().Path" class="generatedblog" alt=""></a>
 
 				</div><!-- blog-article-thumbnail -->
 

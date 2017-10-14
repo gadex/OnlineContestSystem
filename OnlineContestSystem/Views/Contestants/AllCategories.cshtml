@@ -59,24 +59,25 @@
             </tr>
                 </table>*@
             <div class="well">
-
+                
+                @if (Model.Contestants.Count == 0)
+                {
+                <h1 class="text-center">There are no contestants for this category yet.</h1>
+                }
+                else
+                {
+                <h1 class="text-center">Vote for your favourite</h1>
+                }
 
                 @foreach (var item in Model.Contestants)
                 {
-                    if (Model.Contestants.Count == 0)
-                    {
-                        <h1 class="text-center">There are no contestants for this category yet.</h1>
-                    }
-                    else
-                    {
-                        <h1 class="text-center">Vote for your favourite</h1>
-                    }
+                    
                     <div class="list-group">
 
                         <a href="@Url.Action("Details", "Contestants", new {id = item.ID})" class="list-group-item">
                             <div class="media col-md-3">
                                 <figure class="pull-left">
-                                    <img class="media-object img-rounded img-responsive img-listbox" src="@item.Images.FirstOrDefault().Path" alt="Contestant Image">
+                                    <img class="media-object img-rounded img-responsive img-listbox" src="@item.ProfilePic.FirstOrDefault().Path" alt="Contestant Image">
                                 </figure>
                             </div>
                             <div class="col-md-6">

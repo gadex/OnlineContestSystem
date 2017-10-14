@@ -46,7 +46,7 @@ namespace OnlineContestSystem.Controllers
             //viewModel=your viewModel
             //return PartialView("_ChallengeSection", vm);
 
-            return Json("success", JsonRequestBehavior.AllowGet);
+            return Json(new { Url = "Contestants/Index"}, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -145,9 +145,45 @@ namespace OnlineContestSystem.Controllers
             //var credentials = new NetworkCredential("YOUR SENDGRID USERNAME", "PASSWORD");
             //var transportweb = new Web(credentials);
             //transportweb.DeliverAsync(ReplyMessage);
-            //return RedirectToAction("Index", "Contestants", new { Id = messageId });
-            return Json("success", JsonRequestBehavior.AllowGet);
+            return RedirectToAction("Index", "Contestants", new { Id = messageId });
+            //return Json(new { Url = "Contestants/Index" }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        [Authorize]
+        public ActionResult Delete(int? messageId)
+        {
+            if (messageId == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var message = db.Messages.Find(messageId);
+            if (message == null)
+                return HttpNotFound();
+            db.Messages.Remove(message);
+            db.SaveChanges();
+
+            //var _repliesToDelete = db.Replies.Where(i => i.MessageId == messageId).ToList();
+            //if (_repliesToDelete != null)
+            //{
+            //    foreach (var rep in _repliesToDelete)
+            //    {
+            //        db.Replies.Remove(rep);
+            //        db.SaveChanges();
+            //    }
+            //}
+
+            return RedirectToAction("Index", "Contestants");
+        }
+
+        // POST: Contestants/Delete/5
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed([Bind(Include = "ID,Name,Email,PhoneNumber,DateOfBirth,Nation,States")] int id)
+        {
+            var contestant = db.Contestants.Find(id);
+            db.Contestants.Remove(contestant);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

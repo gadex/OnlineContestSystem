@@ -85,5 +85,10 @@ namespace OnlineContestSystem.Controllers
 
             return View();
         }
+
+        public ActionResult Terms()
+        {
+            return View();
+        }
     }
 }
